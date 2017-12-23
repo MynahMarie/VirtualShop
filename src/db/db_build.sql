@@ -1,6 +1,6 @@
-BEGIN ;
+BEGIN;
 
-DROP TABLE IF EXISTS users, items, user_transactions, transaction_items,cart, reviews cascade;
+DROP TABLE IF EXISTS users, items, user_transactions, transaction_items, cart, reviews CASCADE;
 
 CREATE TABLE users (
 	id SERIAL PRIMARY KEY,
@@ -56,7 +56,7 @@ INSERT INTO items(name, description, price, image) VALUES
 ('Cheese', 'Five year old cheddar', 14.07, 'http://www.eatthis.com/wp-content/uploads//media/images/ext/855666897/shredded-swiss-cheese.jpg');
 
 INSERT INTO users(username, firstname, lastname, address, balance, password) VALUES
-('admin','ad','min', '1 nazareth avenue', 500.00,'inserthashhere'),
+('admin','ad','min', '1 nazareth avenue', 500.00,'1234'),
 ('user','joe','bloggs','1 the white house',500.00,'inserthashhere'),
 ('mynah','mynah','marie','fac apartment',500.00,'inserthashere');
 

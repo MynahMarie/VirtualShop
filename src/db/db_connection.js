@@ -5,7 +5,7 @@ require('env2')('config.env');
 
 let DB_URL = process.env.DB_URL;
 
-if (NODE_ENV === 'test') {
+if (process.env.NODE_ENV === 'test') {
   DB_URL = process.env.TEST_DB_URL;
 }
 
@@ -14,7 +14,7 @@ if (!DB_URL) {
 }
 
 const pool = new Pool({
-  connectionString: DB_URL;
+  connectionString: DB_URL
 });
 
 const params = url.parse(DB_URL);
@@ -22,10 +22,10 @@ const params = url.parse(DB_URL);
 const options = {
   host: params.hostname,
   port: params.port,
-  database: params.pathname.split('/')[1];
+  database: params.pathname.split('/')[1],
   max: process.env.DB_MAX_CONNECTIONS || 2,
-  user: username,
-  password: password
+  user: params.auth.split(':')[0],
+  password: params.auth.split(':')[1]
 };
 
 options.ssl = options.host !== 'localhost';

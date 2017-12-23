@@ -57,7 +57,10 @@ document.querySelector('.signUp').addEventListener('submit', function(e) {
         } else if (res === JSON.stringify('username already exists')) {
           document.querySelector('#rules').textContent =
             'username already exists';
-        } else if (res === JSON.stringify('login successful')) {
+        // } else if (res === JSON.stringify('login successful')) {
+        //   alert('Thank you for signing up! You receive a 500$ certificate :)');
+        //   window.location.href = '/auth/products';
+        } else {
           alert('Thank you for signing up! You receive a 500$ certificate :)');
           window.location.href = '/auth/products';
         }
