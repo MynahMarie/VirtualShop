@@ -7,8 +7,8 @@ const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
 
 const helpers = require('./views/helpers/index');
-const router = require('./controllers/router');
-const auth = require('./controllers/auth');
+const router = require('./routes/router');
+const routerAuth = require('./routes/auth');
 
 const app = express();
 
@@ -38,8 +38,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // 2 routers, one for general routes and the other for authentication.
-app.use(router);
-// app.use('/auth', auth);
+app.use('/', router);
+app.use('/auth', routerAuth);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
