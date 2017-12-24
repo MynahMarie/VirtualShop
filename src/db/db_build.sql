@@ -7,9 +7,9 @@ CREATE TABLE users (
 	username VARCHAR(20) NOT NULL ,
 	firstname VARCHAR(20) NOT NULL,
 	lastname VARCHAR(20) NOT NULL,
-	address TEXT NOT NULL,
+	email TEXT NOT NULL,
 	balance DECIMAL DEFAULT 500.00,
-	password TEXT NOT NULL
+	hash TEXT NOT NULL
 );
 
 CREATE TABLE items (
@@ -55,10 +55,10 @@ INSERT INTO items(name, description, price, image) VALUES
 ('Face Cream', 'Rejuvinating face cream', 42.15, 'https://www.bobbibrowncosmetics.com/media/export/cms/products/415x415/bb_prod_E65X_415x415_0.jpg'),
 ('Cheese', 'Five year old cheddar', 14.07, 'http://www.eatthis.com/wp-content/uploads//media/images/ext/855666897/shredded-swiss-cheese.jpg');
 
-INSERT INTO users(username, firstname, lastname, address, balance, password) VALUES
-('admin','ad','min', '1 nazareth avenue', 500.00,'1234'),
-('user','joe','bloggs','1 the white house',500.00,'inserthashhere'),
-('mynah','mynah','marie','fac apartment',500.00,'inserthashere');
+INSERT INTO users(username, firstname, lastname, email, balance, hash) VALUES
+('admin','ad','min', 'admin@admin.com', 500.00,'1234'),
+('user','joe','bloggs','user@example.com',500.00,'inserthashhere'),
+('mynah','mynah','marie','mynah@fac.com',500.00,'inserthashere');
 
 
 COMMIT ;

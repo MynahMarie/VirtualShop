@@ -43,16 +43,15 @@ test('New user was created', t => {
     else {
       const expected = 4;
       createUser(
-        'tape',
+        ['tape',
         'tapefirst',
         'tapelast',
         'tapeemail',
-        'tapepassword',
+        'tapepassword'],
         (err, res) => {
           if (err) console.log('error creating user', err);
           else {
-            const actual = res[0].id;
-            t.deepEqual(actual, expected, 'should return the new user ID');
+            t.deepEqual(res, expected, 'should return the new user ID');
             t.end();
           }
         }
@@ -65,15 +64,15 @@ test('Check if user exists', (t) => {
   runDbBuild((err, res) => {
     if (err) throw err;
     else {
-      const expected_1 = [{ id: 1, username: 'admin' }];
+      const expected_1 = [{ id: 1, username: 'admin', hash: '1234' }];
       const expected_2 = 'No Match Found';
-      userExist(['admin', '1234'], (error, result) => {
+      userExist('admin', (error, result) => {
         if (error) console.log(error);
         else {
-          t.deepEqual(result, expected_1, 'Query should return ID and username of user found.');
+          t.deepEqual(result, expected_1, 'Query should return ID, username and hash of user found.');
         }
       })
-      userExist(['KittyCat', '1234'], (error, result) => {
+      userExist('KittyCat', (error, result) => {
         if (error) console.log(error);
         else {
           t.deepEqual(result, expected_2, `Query should "No Match Found"

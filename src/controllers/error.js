@@ -1,4 +1,5 @@
 exports.client = (req, res) => {
+  console.log("res client: ", res);
   res.status(404).render('error', {
     layout: 'error',
     statusCode: 404,

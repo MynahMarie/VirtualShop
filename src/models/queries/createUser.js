@@ -1,15 +1,15 @@
 const connection = require('./../../db/db_connection');
 
-const createUser = (username, firstname, lastname, address, password, cb) => {
+const createUser = (arr, cb) => {
   connection.query(
-    `INSERT INTO users(username, firstname, lastname,address, password)
+    `INSERT INTO users(username, firstname, lastname, email, hash)
 		VALUES($1,$2,$3,$4,$5) RETURNING id`,
-    [username, firstname, lastname, address, password],
+    [arr[0], arr[2], arr[3], arr[4], arr[1]],
     (error, result) => {
       if (error) {
         cb(error);
       }
-      cb(null, result.rows);
+      cb(null, result.rows[0].id);
     }
   );
 };

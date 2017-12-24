@@ -26,5 +26,6 @@ function fetchPOST(url, data, callback) {
     }
   };
   xhr.open('POST', url);
-  xhr.send(data);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.send(JSON.stringify(data));
 }

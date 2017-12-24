@@ -1,8 +1,8 @@
 const dBConnect = require('./../../db/db_connection');
 
-const userExist = (arr, cb) => {
-	dBConnect.query(`SELECT id,username FROM users WHERE username=$1 AND password=$2`,
-		[arr[0], arr[1]],
+const userExist = (str, cb) => {
+	dBConnect.query(`SELECT id,username,hash FROM users WHERE username=$1`,
+		[str],
     (error, result) => {
 			if(error){
 				cb(error);
