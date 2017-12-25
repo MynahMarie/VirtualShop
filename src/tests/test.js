@@ -75,7 +75,7 @@ test('Check if user exists', (t) => {
       userExist('KittyCat', (error, result) => {
         if (error) console.log(error);
         else {
-          t.deepEqual(result, expected_2, `Query should "No Match Found"
+          t.deepEqual(result, expected_2, `Query should return "No Match Found"
           for user with wrong username but valid password.`);
           t.end();
         }

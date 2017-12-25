@@ -1,5 +1,4 @@
 exports.client = (req, res) => {
-  console.log("res client: ", res);
   res.status(404).render('error', {
     layout: 'error',
     statusCode: 404,
@@ -12,6 +11,6 @@ exports.server = (err, req, res, next) => {
   res.status(500).render('error', {
     layout: 'error',
     statusCode: 500,
-    errorMessage: 'OhNOoooo... SOmeThInG BroKE...',
+    errorMessage: err,
   });
 };

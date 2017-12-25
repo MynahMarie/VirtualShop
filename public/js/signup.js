@@ -6,13 +6,14 @@ document.querySelector('.signIn').addEventListener('submit', function(e) {
   var pass = document.getElementById('passwordSignIn').value;
   data.push(username, pass);
 
-  fetchPOST('/auth/login', data, function(err, res) {
+  fetchPOST('/login', data, function(err, res) {
     if (err) {
-      console.log('error is: ', err);
+      // console.log('error is: ', err);
       document.querySelector('#signInRules').textContent = "Invalid Username or Password";
+    } else {
+      // console.log('result is: ', res);
+      window.location.href = '/auth/products';
     }
-    console.log('result is: ', res);
-    window.location.href = '/auth/products';
   })
 });
 
@@ -31,7 +32,7 @@ document.querySelector('.signUp').addEventListener('submit', function(e) {
       var first = document.querySelector('#firstName').value;
       var last = document.querySelector('#lastName').value;
       var email = document.querySelector('#email').value;
-      console.log('Variables from front: ', user, pass, first, last, email);
+
       //Return a message to the user if password is too short.
       if (pass.length < 8) {
         document.querySelector('#rules').textContent = "Password should be at least 8 characters.";
@@ -41,17 +42,11 @@ document.querySelector('.signUp').addEventListener('submit', function(e) {
       else {
       var query = [];
       query.push(user, pass, first, last, email);
-        console.log('Query from xhr: ', query);
 
-      fetchPOST('/auth/newuser', query, function(err, res) {
+      fetchPOST('/newuser', query, function(err, res) {
         if (err) {
-          console.log('error with', err);
-        } else if (res === JSON.stringify('username already exists')) {
           document.querySelector('#rules').textContent =
             'username already exists';
-        // } else if (res === JSON.stringify('login successful')) {
-        //   alert('Thank you for signing up! You receive a 500$ certificate :)');
-        //   window.location.href = '/auth/products';
         } else {
           alert('Thank you for signing up! You receive a 500$ certificate :)');
           window.location.href = '/auth/products';
