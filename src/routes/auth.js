@@ -5,13 +5,13 @@ const jwt = require('jsonwebtoken');
 
 const routerAuth = express.Router();
 
-// Check cookie
+// Check that a cookie is set, is still valid and has not been tampered with.
 routerAuth.use((req, res, next) => {
   const token = req.cookies.User;
   if (token) {
     jwt.verify(token, process.env.SECRET, (err, decoded) => {
       if (err) {
-        const msg = 'Your token has expired. Please contact the administration.'
+        const msg = 'Your browser did something funny. Please contact the administration.'
         return error.server(msg, req, res, next);
       }
       console.log('decoded token: ', decoded);

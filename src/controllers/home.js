@@ -6,9 +6,10 @@ const jwt = require('jsonwebtoken');
 const randomstring = require('randomstring');
 
 // Middleware that will create a JWT token to be used in the cookie
-const createToken = (id, cb) => {
+const createToken = (id, username, cb) => {
   const payload = {
     user_id: id,
+    username: username,
     exp: Date.now() + 9999,
     iat: Date.now(),
     jti: randomstring.generate({ length: 12, charset: 'alphanumeric' }),
@@ -49,7 +50,7 @@ exports.login = (req, res) => {
         res.sendStatus(403);
       } else {
         // Create a JWT and set the cookie.
-        createToken(response[0].id, (err, token) => {
+        createToken(response[0].id, req.body[0], (err, token) => {
           if (err) {
             console.error('Code 3: ', err.stack);
             return error.server(err, req, res, next);
@@ -86,7 +87,7 @@ exports.newuser = (req, res) => {
             }
             else {
               // Set cookie
-              createToken(id, (err, token) => {
+              createToken(id, req.body[0], (err, token) => {
                 if (err) {
                   console.error('Code 7: ', err.stack);
                   return error.server(err, req, res, next);

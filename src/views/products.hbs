@@ -1,1 +1,9 @@
 {{>navbar }}
+<section>
+  <h1>products</h1>
+  <ul>
+    {{#each items }}
+    <li>{{id}} {{name}} {{description}}</li>
+    <img src={{image}} style="width: 20%">
+    {{/each}}
+</section>
