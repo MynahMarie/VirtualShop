@@ -3,13 +3,11 @@ function fetchGET(url, callback) {
   console.log('inside GET');
   xhr.onreadystatechange = function() {
     if (xhr.readyState === 4 && xhr.status === 200) {
-      console.log(xhr.responseText);
       callback(null, JSON.parse(xhr.responseText));
     } else if (xhr.readyState === 4 && xhr.status !== 200) {
-      console.log(xhr.readyState, xhr.status);
       callback(xhr.status);
     } else {
-      console.log(xhr.readyState, xhr.status);
+      callback(null, xhr.responseText);
     }
   };
   xhr.open('GET', url, true);

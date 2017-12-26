@@ -21,40 +21,39 @@ const createToken = (id, username, cb) => {
   })
 }
 
-// The home route leads to the signup and login page, cookies are cleared when landing here.
+// The home route leads to the signup and login page, cookies and cart are cleared when landing here.
 exports.home = (req, res) => {
-  const cookies = req.cookies;
+  const cookies = req.cookies.User;
   if (cookies !== undefined) {
-    res.clearCookie('User');
+    const userId = jwtDecode(req.cookies.User).user_id;
+    deleteCart(userId, (err, success) => {
+      if (err) return error.server(err, req, res, console.error('Code 8: ', err.stack));
+      console.log(success);
+      //Clear the cookie and redirect to login
+      res.clearCookie('User');
+      res.redirect('/');
+    })
   }
-  res.render('home', { activePage: { home: true }});
+  else res.render('home', { activePage: { home: true }});
 }
 
 // Login route accessed when hitting the submit button. If successful, will redirect to /auth/products.
 exports.login = (req, res) => {
+  // Check if users exists.
   userExist(req.body[0], (err, response) => {
-    if (err) {
-      console.error('Code 1: ', err.stack);
-      return error.server(err, req, res, next);
-    }
+    if (err) return error.server(err, req, res, console.error('Code 1: ', err.stack));
     else if (response === 'No Match Found') {
       return res.status(403).send('Invalid username or password');
     }
     // If user exists, compare the password provided with the hash in DB.
     bcrypt.compare(req.body[1], response[0].hash, (err, result) => {
-      if (err) {
-        console.error('Code 2: ', err.stack);
-        return error.server(err, req, res, next);
-      }
-      else if (result === false) {
-        res.sendStatus(403);
-      } else {
+      if (err) return error.server(err, req, res, console.error('Code 2: ', err.stack));
+      else if (result === false) res.sendStatus(403);
+      else {
         // Create a JWT and set the cookie.
         createToken(response[0].id, req.body[0], (err, token) => {
-          if (err) {
-            console.error('Code 3: ', err.stack);
-            return error.server(err, req, res, next);
-          }
+          if (err) return error.server(err, req, res, console.error('Code 3: ', err.stack));
+
           res.cookie('User', token, { httpOnly: true });
           res.sendStatus(200);
         })
@@ -66,39 +65,28 @@ exports.login = (req, res) => {
 // Accessed through /newuser endpoint, if succesful will redirect to /auth/products.
 exports.newuser = (req, res) => {
   userExist(req.body[0], (err, result) => {
-    if (err) {
-      console.error('Code 4: ', err);
-      return error.server(err, req, res, next);
-    }
+    if (err) return error.server(err, req, res, console.error('Code 4: ', err.stack));
+    // If another user is found with the same username, prompt the user to choose another one.
     else if (result !== 'No Match Found') {
       res.sendStatus(403);
-    } else {
+    }
+    // Otherwise, hash the password and insert new user in DB.
+    else {
       bcrypt.hash(req.body[1], 10, (err, hash) => {
-        if (err) {
-          console.error('Code 5: ', err.stack);
-          return error.server(err, req, res, next);
-        }
-        else {
-          req.body[1] = hash;
-          createUser(req.body, (err, id) => {
-            if (err) {
-              console.error('Code 6: ', err.stack);
-              return error.server(err, req, res, next);
-            }
-            else {
-              // Set cookie
-              createToken(id, req.body[0], (err, token) => {
-                if (err) {
-                  console.error('Code 7: ', err.stack);
-                  return error.server(err, req, res, next);
-                }
-                res.cookie('User', token, { httpOnly: true });
-                console.log('Cookie Set newUser: ', token);
-                res.sendStatus(200);
-              })
-            }
+        if (err) return error.server(err, req, res, console.error('Code 5: ', err.stack));
+
+        req.body[1] = hash;
+        createUser(req.body, (err, id) => {
+          if (err) return error.server(err, req, res, console.error('Code 6: ', err.stack));
+          // Set cookie
+          createToken(id, req.body[0], (err, token) => {
+            if (err) return error.server(err, req, res, console.error('Code 7: ', err.stack));
+
+            res.cookie('User', token, { httpOnly: true });
+            console.log('Cookie Set newUser: ', token);
+            res.sendStatus(200);
           })
-        }
+        })
       })
     }
   })

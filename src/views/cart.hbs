@@ -1,1 +1,28 @@
 {{>navbar }}
+<section>
+		<div class="header">
+			<h1 class="header__title">My Cart</h1>
+		</div>
+		<div class="content">
+			<table class="content__items" id="items">
+				<tr>
+					<th>Item ID</th>
+					<th>Name</th>
+					<th>Description</th>
+					<th>Price</th>
+					<th>Delete</th>
+				</tr>
+				{{#each items}}
+			  <tr>
+			    <td>{{item_id}}</td>
+			    <td>{{name}}</td>
+			    <td>{{description}}</td>
+			    <td>{{price}}$</td>
+					<td><a id="itemID_{{item_id}}" class="fa fa-trash" href="#" alt="Delete"></a>
+			  </tr>
+			  {{/each}}
+			</table>
+		</div>
+		<button id="buybutton">Buy Now!</button>
+	</section>
+<script src="../js/main.js" type="text/javascript"></script>

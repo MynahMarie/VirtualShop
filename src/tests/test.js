@@ -88,13 +88,24 @@ test('Get Transaction History', (t) => {
   runDbBuild((err, res) => {
     if (err) throw err;
     else {
-      const expected = 'No Transactions';
+      const expected1 = 'No Transactions';
+      const expected2 = 1;
+      const expected3 = 2;
       showHistory(1, (err, res) => {
         if (err) console.log(err);
         else {
-          t.deepEqual(res, expected, 'Should return "No Transactions" for admin');
-          t.end();
+          t.deepEqual(res, expected1, 'Should return "No Transactions" for admin');
         }
+      })
+      showHistory(2, (err, res) => {
+        if (err) console.log(err);
+        console.log('res.rowCount', res.rowCount);
+        t.deepEqual(res.length, expected2, 'Should return 1 for the number of rows for user_id 2');
+      })
+      showHistory(3, (err, res) => {
+        if (err) console.log(err);
+        t.deepEqual(res.length, expected3, 'Should return 2 for the number of rows for user_id 3');
+        t.end();
       })
     }
   })

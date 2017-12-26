@@ -1,6 +1,6 @@
 BEGIN ;
 
-DROP TABLE IF EXISTS users, items, user_transactions, transaction_items,cart, reviews cascade;
+DROP TABLE IF EXISTS users, items, transactions, cart, reviews cascade;
 
 CREATE TABLE users (
 	id SERIAL PRIMARY KEY,
@@ -21,17 +21,11 @@ CREATE TABLE items (
 
 );
 
-CREATE TABLE user_transactions (
+CREATE TABLE transactions (
 	id SERIAL PRIMARY KEY,
-	user_id INTEGER REFERENCES users(id) on delete cascade on update cascade,
+	user_id INTEGER NOT NULL,
+	item_id INTEGER NOT NULL,
 	t_time TIMESTAMP
-);
-
-CREATE TABLE transaction_items (
-	id SERIAL PRIMARY KEY,
-	transaction_id INTEGER REFERENCES user_transactions(id) on delete cascade on update cascade,
-	item_id INTEGER REFERENCES items(id) on delete cascade on update cascade
-
 );
 
 CREATE TABLE cart (
@@ -60,5 +54,10 @@ INSERT INTO users(username, firstname, lastname, email, balance, hash) VALUES
 ('user','joe','bloggs','user@example.com',500.00,'inserthashhere'),
 ('mynah','mynah','marie','mynah@fac.com',500.00,'inserthashere');
 
+INSERT INTO transactions(user_id, item_id, t_time) VALUES
+(2, 1, TIMESTAMP '2017-05-16 15:36:35'),
+(3, 2, TIMESTAMP '2017-05-16 15:36:37'),
+(3, 3, TIMESTAMP '2017-05-16 15:36:40'),
+(4, 4, TIMESTAMP '2017-05-16 15:36:45');
 
 COMMIT ;

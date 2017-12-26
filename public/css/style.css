@@ -11,3 +11,17 @@ a {
 ul {
   list-style: none;
 }
+
+table {
+  width: 100%;
+  border: 2px solid black;
+  text-align: center;
+  border-collapse: collapse;
+  margin-top: 5%;
+}
+
+td {
+  max-width: 4vw;
+  padding: 1%;
+  border: 1px solid grey;
+}

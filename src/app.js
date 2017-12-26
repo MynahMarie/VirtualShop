@@ -33,8 +33,8 @@ app.set('port', process.env.PORT || 4444);
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
@@ -43,15 +43,15 @@ app.use('/', router);
 app.use('/auth', routerAuth);
 
 //catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  const err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
-// 404 error handler
-app.use(function(err, req, res, next) {
-  return error.client(req, res);
-});
+// app.use(function(req, res, next) {
+//   const err = new Error('Not Found');
+//   err.status = 404;
+//   next(err);
+// });
+//
+// // 404 error handler
+// app.use(function(err, req, res, next) {
+//   return error.client(req, res);
+// });
 
 module.exports = app;

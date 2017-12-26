@@ -1,4 +1,4 @@
-const runDbBuild = require('./db_build');
+const runDbBuild = require('./../src/db/db_build');
 
 runDbBuild((err, res) => {
   if (err) throw err;

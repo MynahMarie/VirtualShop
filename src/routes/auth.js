@@ -14,8 +14,8 @@ routerAuth.use((req, res, next) => {
         const msg = 'Your browser did something funny. Please contact the administration.'
         return error.server(msg, req, res, next);
       }
-      console.log('decoded token: ', decoded);
       req.decoded = decoded;
+      console.log('decoded token: ', req.decoded);
       next();
     })
   } else {
@@ -24,12 +24,15 @@ routerAuth.use((req, res, next) => {
 });
 
 routerAuth.get('/logout', auth.logout);
-routerAuth.post('/logout', auth.logout);
 routerAuth.get('/products', auth.products);
-routerAuth.post('/products', auth.products);
-routerAuth.get('/cart', auth.cart);
-routerAuth.post('/cart', auth.cart);
 routerAuth.get('/profile', auth.history);
+routerAuth.get('/add', auth.add);
+routerAuth.get('/cart', auth.cart);
+
+routerAuth.post('/products', auth.products);
+routerAuth.post('/logout', auth.logout);
+routerAuth.post('/cart', auth.cart);
+routerAuth.post('/add', auth.add);
 routerAuth.post('/profile', auth.history);
 
 module.exports = routerAuth;

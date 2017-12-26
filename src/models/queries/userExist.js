@@ -10,7 +10,6 @@ const userExist = (str, cb) => {
 			} else if (result.rowCount === 0) {
         return cb(null, 'No Match Found');
       } else {
-        console.log('Results from query userExist: ', result.rows);
         cb(null, result.rows);
       }
 		});
