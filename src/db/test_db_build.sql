@@ -34,13 +34,13 @@ CREATE TABLE cart (
 	item_id INTEGER REFERENCES items(id) on delete cascade on update cascade
 	);
 
-CREATE TABLE reviews (
-	id SERIAL PRIMARY KEY,
-	user_id INTEGER REFERENCES users(id)on delete cascade on update cascade,
-	item_id INTEGER REFERENCES items(id)on delete cascade on update cascade,
-	content TEXT NOT NULL,
-	rev_time TIMESTAMP
-);
+-- CREATE TABLE reviews (
+-- 	id SERIAL PRIMARY KEY,
+-- 	user_id INTEGER REFERENCES users(id)on delete cascade on update cascade,
+-- 	item_id INTEGER REFERENCES items(id)on delete cascade on update cascade,
+-- 	content TEXT NOT NULL,
+-- 	rev_time TIMESTAMP
+-- );
 
 INSERT INTO items(name, description, price, image) VALUES
 ('Shoes', 'hoslacks stinking shoes', 20.00, 'https://i.pinimg.com/originals/42/34/dd/4234dd092aff7a1a3d61fc71dbb9dc74.jpg'),

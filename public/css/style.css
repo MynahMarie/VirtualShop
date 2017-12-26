@@ -25,3 +25,8 @@ td {
   padding: 1%;
   border: 1px solid grey;
 }
+
+.table__header {
+  border: 2px solid black;
+  border-collapse: collapse;
+}

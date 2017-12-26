@@ -2,7 +2,8 @@ const error = require('./error');
 const displayItems = require('./../models/queries/displayItems');
 const showHistory = require('./../models/queries/showHistory');
 const getBalance = require('./../models/queries/getBalance');
-const { addItem, deleteCart, showCart } = require('./../models/queries/cart');
+const transactions = require('./../models/queries/transactions');
+const { addItem, deleteCart, getCart, deleteItem, buy } = require('./../models/queries/cart');
 
 const jwtDecode = require('jwt-decode');
 
@@ -28,9 +29,17 @@ exports.products = (req, res) => {
 
 exports.cart = (req, res) => {
   const userId = jwtDecode(req.cookies.User).user_id;
-  showCart(userId, (err, items) => {
+  getCart(userId, (err, items) => {
     if (err) return error.server('err', req, res, console.error('Code 10: ', err.stack));
-    res.status(200).render('cart', { items });
+
+    //Get the total amount of all items in the cart.
+    let totalAmount = 0.00;
+    if (items !== 'cart empty') {
+      items.forEach(item => { totalAmount += parseFloat(item.price, 10); })
+      //Return a rounded value to 2 decimal places.
+      totalAmount = totalAmount.toFixed(2);
+    }
+    res.status(200).render('cart', { items, totalAmount });
   })
 }
 
@@ -42,6 +51,44 @@ exports.add = (req, res) => {
     if (err) return error.server('err', req, res, console.error('Code 11: ', err.stack));
     res.sendStatus(200);
   });
+}
+
+exports.delete = (req, res) => {
+  const itemId = JSON.parse(req.body);
+  deleteItem(itemId, (err, success) => {
+    if (err) return error.server('err', req, res, console.error('Code 14: ', err.stack));
+    console.log(success);
+    res.sendStatus(200);
+  })
+}
+
+exports.buy = (req, res) => {
+  const userId = jwtDecode(req.cookies.User).user_id;
+  getCart(userId, (err, items) => {
+    if (err) return error.server('err', req, res, console.error('Code 15: ', err.stack));
+    let total = 0.00;
+    items.forEach(row => { total += parseFloat(row.price, 10); });
+    total = total.toFixed(2);
+    buy(userId, total, (err, result) => {
+      if (err) return error.server('err', req, res, console.error('Code 16: ', err.stack));
+      // const accountBalance = result;
+      console.log('buy results back: ', result);
+      if (result === 'Not enough funds') {
+        return res.status(403);
+      }
+      items.forEach(row => {
+        transactions(userId, row.item_id, (err, done) => {
+          if (err) return error.server('err', req, res, console.error('Code 18: ', err.stack))
+          console.log(done);
+        })
+      })
+      deleteCart(userId, (err, success) => {
+        if (err) return error.server('err', req, res, console.error('Code 17: ', err.stack));
+        console.log(success);
+      })
+    })
+    res.status(200);
+  })
 }
 
 exports.history = (req, res) => {
@@ -58,7 +105,7 @@ exports.history = (req, res) => {
     getBalance(userId, (err, result) => {
       if (err) return error.server('err', req, res, console.error('Code 13: ', err.stack));
       // Finally, send all the data to be rendered by the view.
-      const amount = result[0].balance;
+      const amount = parseFloat(result[0].balance).toFixed(2);
       res.status(200).render('history',
       { activePage: { products: true }, username, transactions, amount});
     })

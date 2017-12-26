@@ -5,24 +5,47 @@
 		</div>
 		<div class="content">
 			<table class="content__items" id="items">
-				<tr>
+				<tr class="table__header">
 					<th>Item ID</th>
 					<th>Name</th>
 					<th>Description</th>
 					<th>Price</th>
 					<th>Delete</th>
 				</tr>
-				{{#each items}}
-			  <tr>
+				{{#each items }}
+			  <tr id="itemRow_{{item_id}}_u{{id}}">
 			    <td>{{item_id}}</td>
 			    <td>{{name}}</td>
 			    <td>{{description}}</td>
-			    <td>{{price}}$</td>
-					<td><a id="itemID_{{item_id}}" class="fa fa-trash" href="#" alt="Delete"></a>
+			    <td id="itemPrice_u{{id}}">{{price}}$</td>
+					<td><a id="item_{{item_id}}_u{{id}}" class="fa fa-trash" href="#" alt="Delete"></a>
 			  </tr>
 			  {{/each}}
+				{{#compare items "===" "cart empty"}}
+				<tr>
+					<td></td>
+					<td></td>
+					<td>Cart is empty</td>
+					<td></td>
+					<td></th>
+				</tr>
+				{{/compare}}
+				<tr class="table__header">
+					<th></th>
+					<th></th>
+					<th></th>
+					<th>Total</th>
+					<th></th>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td id="cart_total">{{totalAmount}}$</td>
+					<td></th>
+				</tr>
 			</table>
 		</div>
-		<button id="buybutton">Buy Now!</button>
+		<button id="buyButton">Buy Now!</button>
 	</section>
-<script src="../js/main.js" type="text/javascript"></script>
+<script src="../js/cart.js" type="text/javascript"></script>

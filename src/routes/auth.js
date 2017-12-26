@@ -33,6 +33,8 @@ routerAuth.post('/products', auth.products);
 routerAuth.post('/logout', auth.logout);
 routerAuth.post('/cart', auth.cart);
 routerAuth.post('/add', auth.add);
+routerAuth.post('/delete', auth.delete);
+routerAuth.get('/buy', auth.buy);
 routerAuth.post('/profile', auth.history);
 
 module.exports = routerAuth;

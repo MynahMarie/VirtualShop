@@ -3,7 +3,7 @@
   <h1>products</h1>
   <ul>
     {{#each items }}
-    <li>{{id}} {{name}} {{description}}</li>
+    <li>{{id}} {{name}} {{description}} {{price}}$</li>
     <img src={{image}} style="width: 20%">
     <li><button class="cart" id="itemID_{{id}}">Add to Cart</button></li>
     {{/each}}
