@@ -3,7 +3,9 @@ const error = require('./error');
 const createUser = require('./../models/queries/createUser');
 const userExist = require('./../models/queries/userExist');
 const jwt = require('jsonwebtoken');
+const jwtDecode = require('jwt-decode');
 const randomstring = require('randomstring');
+const { deleteCart } = require('./../models/queries/cart');
 
 // Middleware that will create a JWT token to be used in the cookie
 const createToken = (id, username, cb) => {
