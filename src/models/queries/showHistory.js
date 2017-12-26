@@ -4,7 +4,8 @@ const showHistory = (user_id, cb) => {
   //First
   dBConnect.query(
     `SELECT transactions.id,transactions.item_id,items.name,items.price,transactions.t_time
-    FROM transactions,items WHERE user_id = $1 AND transactions.item_id = items.id`,
+    FROM transactions,items WHERE user_id = $1 AND transactions.item_id = items.id
+    ORDER BY t_time DESC LIMIT 25`,
     [user_id],
     (err, result) => {
       if (err) {

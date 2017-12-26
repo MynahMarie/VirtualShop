@@ -18,7 +18,6 @@ CREATE TABLE items (
 	description TEXT NOT NULL,
 	price DECIMAL NOT NULL,
 	image TEXT NULL
-
 );
 
 CREATE TABLE transactions (
@@ -34,13 +33,13 @@ CREATE TABLE cart (
 	item_id INTEGER REFERENCES items(id) on delete cascade on update cascade
 	);
 
-CREATE TABLE reviews (
-	id SERIAL PRIMARY KEY,
-	user_id INTEGER REFERENCES users(id)on delete cascade on update cascade,
-	item_id INTEGER REFERENCES items(id)on delete cascade on update cascade,
-	content TEXT NOT NULL,
-	rev_time TIMESTAMP
-);
+-- CREATE TABLE reviews (
+-- 	id SERIAL PRIMARY KEY,
+-- 	user_id INTEGER REFERENCES users(id) on delete cascade on update cascade,
+-- 	item_id INTEGER REFERENCES items(id) on delete cascade on update cascade,
+-- 	content TEXT NOT NULL,
+-- 	rev_time TIMESTAMP
+-- );
 
 INSERT INTO items(name, description, price, image) VALUES
 ('Shoes', 'hoslacks stinking shoes', 20.00, 'https://i.pinimg.com/originals/42/34/dd/4234dd092aff7a1a3d61fc71dbb9dc74.jpg'),
@@ -49,15 +48,7 @@ INSERT INTO items(name, description, price, image) VALUES
 ('Face Cream', 'Rejuvinating face cream', 42.15, 'https://www.bobbibrowncosmetics.com/media/export/cms/products/415x415/bb_prod_E65X_415x415_0.jpg'),
 ('Cheese', 'Five year old cheddar', 14.07, 'http://www.eatthis.com/wp-content/uploads//media/images/ext/855666897/shredded-swiss-cheese.jpg');
 
-INSERT INTO users(username, firstname, lastname, email, balance, hash) VALUES
-('admin','ad','min', 'admin@admin.com', 500.00,'1234'),
-('user','joe','bloggs','user@example.com',500.00,'inserthashhere'),
-('mynah','mynah','marie','mynah@fac.com',500.00,'inserthashere');
 
-INSERT INTO transactions(user_id, item_id, t_time) VALUES
-(2, 1, TIMESTAMP '2017-05-16 15:36:35'),
-(3, 2, TIMESTAMP '2017-05-16 15:36:38'),
-(3, 3, TIMESTAMP '2017-05-16 15:36:40'),
-(4, 4, TIMESTAMP '2017-05-16 15:36:45');
+
 
 COMMIT ;

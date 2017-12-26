@@ -10,12 +10,14 @@
 <table>
   <tr>
     <th>Transaction ID</th>
+    <th>Item ID</th>
     <th>Item</th>
     <th>Price</th>
     <th>Purchase Time</th>
   </tr>
   {{#each transactions}}
   <tr>
+    <td>{{id}}</td>
     <td>{{item_id}}</td>
     <td>{{name}}</td>
     <td>{{price}}$</td>
